@@ -1,40 +1,89 @@
 # Docker Network Security Lab
 
-## Project Overview
+A Docker-based enterprise network environment designed to simulate real-world network segmentation and security controls.
 
-This project demonstrates the design and implementation of a segmented enterprise-style network using Docker containers. The environment simulates a real-world infrastructure with separate network zones, static routing, centralized authentication, VPN access, malware scanning, and a web server hosted in a DMZ.
-
-The goal of the project was to gain practical experience with Linux networking, Docker networking, routing, network segmentation, and security-focused services commonly used in enterprise environments.
-
-### Key Features
-
-* Segmented network architecture
-* Management, Internal, and DMZ network zones
-* Static routing between network segments
-* WireGuard VPN access
-* Authelia Single Sign-On (SSO)
-* ClamAV malware scanning
-* Nginx web server hosted in DMZ
-* Network validation using ping and traceroute
-* Docker-based infrastructure
+This project demonstrates how Docker can be used to build a multi-segment network with dedicated routing, authentication, VPN access, malware scanning, and a DMZ-hosted web application.
 
 ---
 
-## Architecture
+# Why This Project?
 
-The environment consists of three isolated network segments connected through dedicated routing containers.
+The goal of this project was to gain hands-on experience with:
 
-### Network Zones
+* Linux administration
+* Docker networking
+* Static routing
+* Network segmentation
+* VPN technologies
+* Authentication systems
+* Security monitoring
+* Infrastructure troubleshooting
 
-| Network            | Subnet        | Purpose                  |
-| ------------------ | ------------- | ------------------------ |
-| Management Network | 172.20.0.0/24 | Administrative systems   |
-| Internal Network   | 172.21.0.0/24 | Internal routing segment |
-| DMZ Network        | 172.22.0.0/24 | Public-facing services   |
+Rather than deploying individual containers, the objective was to design a small enterprise-style environment where traffic must traverse multiple network zones and security controls.
 
-### Components
+---
 
-| Component     | IP Address              |
+# Skills Demonstrated
+
+### Linux Administration
+
+* Container administration
+* Network troubleshooting
+* Route configuration
+* Service validation
+
+### Docker
+
+* Multi-network container deployments
+* Custom bridge networks
+* Container connectivity
+* Network isolation
+
+### Networking
+
+* Static routing
+* IP addressing
+* Traceroute analysis
+* Network segmentation
+* DMZ architecture
+
+### Security
+
+* WireGuard VPN
+* Authelia Single Sign-On (SSO)
+* ClamAV malware scanning
+* Segmented network design
+
+### Documentation
+
+* Network topology diagrams
+* Technical documentation
+* Infrastructure validation
+* Troubleshooting records
+
+---
+
+# Architecture Overview
+
+The environment consists of three isolated network segments connected by dedicated routing containers.
+
+| Network            | Subnet        | Purpose                     |
+| ------------------ | ------------- | --------------------------- |
+| Management Network | 172.20.0.0/24 | Administrative systems      |
+| Internal Network   | 172.21.0.0/24 | Routing and transit network |
+| DMZ Network        | 172.22.0.0/24 | Public-facing services      |
+
+---
+
+# Network Topology
+
+![Network Topology](screenshots/13-network-topology-diagram.png)
+
+---
+
+# Components
+
+| Component     | Address                 |
 | ------------- | ----------------------- |
 | test-mgmt     | 172.20.0.100            |
 | Router1       | 172.20.0.5 / 172.21.0.2 |
@@ -43,84 +92,46 @@ The environment consists of three isolated network segments connected through de
 
 ---
 
-## Network Segmentation
+# Security Components
 
-The environment is divided into three separate network zones to simulate enterprise network segmentation.
+## Authelia
 
-### Management Network
-
-Administrative access and management traffic.
-
-```text
-172.20.0.0/24
-```
-
-### Internal Network
-
-Transit network used between routers.
-
-```text
-172.21.0.0/24
-```
-
-### DMZ Network
-
-Hosts public-facing services while remaining isolated from the management network.
-
-```text
-172.22.0.0/24
-```
-
-Traffic between zones is controlled through static routing.
-
----
-
-## Security Components
-
-### Authelia
-
-Authelia provides centralized authentication and Single Sign-On (SSO) functionality.
+Provides centralized authentication and Single Sign-On (SSO) capabilities.
 
 Features:
 
 * Centralized authentication
-* User access control
 * Session management
-* Security policy enforcement
+* Access control
+* Identity verification
 
-### WireGuard
+---
 
-WireGuard provides secure VPN access to the environment.
+## WireGuard
+
+Provides secure VPN access into the environment.
 
 Features:
 
 * Encrypted communication
-* Remote administrative access
+* Secure remote administration
 * Lightweight VPN implementation
 
-### ClamAV
+---
 
-ClamAV provides malware scanning capabilities.
+## ClamAV
+
+Provides malware scanning capabilities.
 
 Features:
 
 * Malware detection
-* Signature updates
-* Security monitoring
-
-### DMZ Web Server
-
-The DMZ contains an Nginx web server isolated from the management network.
-
-Benefits:
-
-* Reduced attack surface
-* Service isolation
-* Controlled access paths
+* Signature-based scanning
+* Security validation
 
 ---
 
-## Routing Validation
+# Routing Validation
 
 Static routes were configured between Router1 and Router2.
 
@@ -136,13 +147,13 @@ Static routes were configured between Router1 and Router2.
 172.20.0.0/24 via 172.21.0.2
 ```
 
-Validation was performed using:
+Traffic validation was performed using:
 
 * Ping
 * Traceroute
 * Route inspection
 
-Successful communication was verified between:
+The following path was successfully verified:
 
 ```text
 test-mgmt
@@ -154,118 +165,95 @@ Router2
 webserver-dmz
 ```
 
-Traceroute confirmed that packets traversed both routers before reaching the destination.
-
 ---
 
-## Screenshots
+# Screenshots
 
-### Environment Overview
+## Running Containers
 
 ![Containers](screenshots/01-docker-containers-running.png)
 
-### Docker Networks
+## Docker Networks
 
 ![Networks](screenshots/02-docker-networks.png)
 
-### Router1 IP Configuration
+## Router1 Configuration
 
-![Router1 IP](screenshots/03-router1-ip-addresses.png)
+![Router1](screenshots/03-router1-ip-addresses.png)
 
-### Router2 IP Configuration
+## Router2 Configuration
 
-![Router2 IP](screenshots/04-router2-ip-addresses.png)
+![Router2](screenshots/04-router2-ip-addresses.png)
 
-### Router1 Routing Table
+## Router1 Routing Table
 
 ![Router1 Routes](screenshots/05-router1-routing-table.png)
 
-### Router2 Routing Table
+## Router2 Routing Table
 
 ![Router2 Routes](screenshots/06-router2-routing-table.png)
 
-### Routing Validation
+## Routing Validation
 
 ![Ping Test](screenshots/07-routing-ping-test.png)
 
-### Traceroute Verification
+## Traceroute Validation
 
 ![Traceroute](screenshots/08-routing-traceroute.png)
 
-### Authelia Service
+## Authelia
 
 ![Authelia](screenshots/09-authelia-container-status.png)
 
-### WireGuard Service
+## WireGuard
 
 ![WireGuard](screenshots/10-wireguard-container-status.png)
 
-### ClamAV Service
+## ClamAV
 
 ![ClamAV](screenshots/11-clamav-container-status.png)
 
-### DMZ Web Server
+## DMZ Web Server
 
 ![DMZ Web Server](screenshots/12-dmz-webserver-running.png)
 
-### Network Topology
-
-![Network Topology](screenshots/13-network-topology-diagram.png)
-
 ---
 
-## Lessons Learned
+# Lessons Learned
 
-This project provided hands-on experience with:
+This project provided practical experience with:
 
 * Docker networking
-* Multi-network container deployments
 * Linux routing
-* Static route configuration
+* Enterprise network segmentation
 * VPN deployment
-* Authentication services
+* Authentication systems
 * Malware scanning
 * Network troubleshooting
-* Enterprise network segmentation
+* Infrastructure documentation
 
-One of the most valuable aspects of the project was troubleshooting connectivity issues and restoring routing functionality after the environment had been offline for an extended period. This reinforced practical networking skills and systematic troubleshooting techniques.
+One of the most valuable parts of the project was restoring and troubleshooting the environment after it had been offline, requiring route verification, gateway configuration, connectivity testing, and service validation.
 
 ---
 
-## Technologies Used
-
-### Infrastructure
+# Technologies Used
 
 * Docker
-* Docker Networks
+* Ubuntu Server
 * Alpine Linux
-
-### Networking
-
-* Static Routing
-* ICMP
-* Traceroute
-* TCP/IP
-
-### Security
-
-* Authelia
 * WireGuard
+* Authelia
 * ClamAV
-
-### Services
-
 * Nginx
 * SSH
-
-### Operating System
-
-* Ubuntu Server
+* ICMP
+* Traceroute
+* Static Routing
 
 ---
 
-## Author
+# Author
 
 **Christoffer Öberg**
 
-Project created as part of a network security and systems administration learning portfolio.
+System Administration & Network Security Portfolio Project
