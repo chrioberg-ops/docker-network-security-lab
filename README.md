@@ -140,6 +140,8 @@ The traceroute confirms traffic traverses both routers before reaching the DMZ h
 
 Provides centralized authentication and Single Sign-On functionality.
 
+Single Sign-On (SSO) allows users to authenticate once and gain access to multiple services without repeatedly entering credentials. In enterprise environments, SSO improves user experience while simplifying identity management and access control.
+
 ![Authelia](screenshots/09-authelia-container-status.png)
 
 ---
@@ -147,6 +149,8 @@ Provides centralized authentication and Single Sign-On functionality.
 ## WireGuard (VPN)
 
 Provides secure remote access to the environment.
+
+A Virtual Private Network (VPN) creates an encrypted tunnel between a remote device and a private network. This allows administrators to securely access internal systems over untrusted networks such as the public internet.
 
 ![WireGuard](screenshots/10-wireguard-container-status.png)
 
@@ -156,6 +160,8 @@ Provides secure remote access to the environment.
 
 Provides malware detection and scanning capabilities.
 
+ClamAV is an open-source antivirus engine used to detect malicious files and known malware signatures. It helps improve security by identifying potentially harmful content before it can affect systems or services.
+
 ![ClamAV](screenshots/11-clamav-container-status.png)
 
 ---
@@ -163,6 +169,10 @@ Provides malware detection and scanning capabilities.
 # DMZ Web Server
 
 The DMZ contains an isolated Nginx web server.
+
+A Demilitarized Zone (DMZ) is a separate network segment used to host services that may need to be accessible from outside the internal network. By isolating public-facing services in a DMZ, organizations can reduce the risk of attackers gaining direct access to critical internal systems.
+
+In this lab, the Nginx web server was placed in the DMZ network (172.22.0.0/24) and accessed through dedicated routing between network segments, demonstrating a common enterprise security architecture.
 
 ![DMZ Web Server](screenshots/12-dmz-webserver-running.png)
 
