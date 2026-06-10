@@ -19,47 +19,27 @@ The goal of this project was to gain hands-on experience with:
 * Security monitoring
 * Infrastructure troubleshooting
 
-Rather than deploying individual containers, the objective was to design a small enterprise-style environment where traffic must traverse multiple network zones and security controls.
-
 ---
 
 # Skills Demonstrated
 
-### Linux Administration
-
-* Container administration
-* Network troubleshooting
-* Route configuration
-* Service validation
-
-### Docker
-
-* Multi-network container deployments
-* Custom bridge networks
-* Container connectivity
-* Network isolation
-
-### Networking
-
-* Static routing
-* IP addressing
-* Traceroute analysis
-* Network segmentation
-* DMZ architecture
-
-### Security
-
+* Linux Administration
+* Docker Networking
+* Static Routing
+* Network Segmentation
 * WireGuard VPN
-* Authelia Single Sign-On (SSO)
-* ClamAV malware scanning
-* Segmented network design
+* Authelia SSO
+* ClamAV Malware Scanning
+* Network Troubleshooting
+* Technical Documentation
 
-### Documentation
+---
 
-* Network topology diagrams
-* Technical documentation
-* Infrastructure validation
-* Troubleshooting records
+# Infrastructure Overview
+
+The environment consists of multiple Docker containers connected through isolated network segments.
+
+![Containers](screenshots/01-docker-containers-running.png)
 
 ---
 
@@ -73,15 +53,17 @@ The environment consists of three isolated network segments connected by dedicat
 | Internal Network   | 172.21.0.0/24 | Routing and transit network |
 | DMZ Network        | 172.22.0.0/24 | Public-facing services      |
 
----
-
-# Network Topology
-
 ![Network Topology](screenshots/13-network-topology-diagram.png)
 
 ---
 
-# Components
+# Network Segmentation
+
+The lab is divided into three isolated network zones.
+
+![Networks](screenshots/02-docker-networks.png)
+
+### Components
 
 | Component     | Address                 |
 | ------------- | ----------------------- |
@@ -92,42 +74,35 @@ The environment consists of three isolated network segments connected by dedicat
 
 ---
 
-# Security Components
+# Router Configuration
 
-## Authelia
+## Router1
 
-Provides centralized authentication and Single Sign-On (SSO) capabilities.
+Interfaces:
 
-Features:
+* 172.20.0.5
+* 172.21.0.2
 
-* Centralized authentication
-* Session management
-* Access control
-* Identity verification
+![Router1 Interfaces](screenshots/03-router1-ip-addresses.png)
 
----
+### Routing Table
 
-## WireGuard
-
-Provides secure VPN access into the environment.
-
-Features:
-
-* Encrypted communication
-* Secure remote administration
-* Lightweight VPN implementation
+![Router1 Routes](screenshots/05-router1-routing-table.png)
 
 ---
 
-## ClamAV
+## Router2
 
-Provides malware scanning capabilities.
+Interfaces:
 
-Features:
+* 172.21.0.3
+* 172.22.0.5
 
-* Malware detection
-* Signature-based scanning
-* Security validation
+![Router2 Interfaces](screenshots/04-router2-ip-addresses.png)
+
+### Routing Table
+
+![Router2 Routes](screenshots/06-router2-routing-table.png)
 
 ---
 
@@ -147,73 +122,47 @@ Static routes were configured between Router1 and Router2.
 172.20.0.0/24 via 172.21.0.2
 ```
 
-Traffic validation was performed using:
-
-* Ping
-* Traceroute
-* Route inspection
-
-The following path was successfully verified:
-
-```text
-test-mgmt
-↓
-Router1
-↓
-Router2
-↓
-webserver-dmz
-```
-
----
-
-# Screenshots
-
-## Running Containers
-
-![Containers](screenshots/01-docker-containers-running.png)
-
-## Docker Networks
-
-![Networks](screenshots/02-docker-networks.png)
-
-## Router1 Configuration
-
-![Router1](screenshots/03-router1-ip-addresses.png)
-
-## Router2 Configuration
-
-![Router2](screenshots/04-router2-ip-addresses.png)
-
-## Router1 Routing Table
-
-![Router1 Routes](screenshots/05-router1-routing-table.png)
-
-## Router2 Routing Table
-
-![Router2 Routes](screenshots/06-router2-routing-table.png)
-
-## Routing Validation
+### End-to-End Connectivity Test
 
 ![Ping Test](screenshots/07-routing-ping-test.png)
 
-## Traceroute Validation
+### Traceroute Verification
+
+The traceroute confirms traffic traverses both routers before reaching the DMZ host.
 
 ![Traceroute](screenshots/08-routing-traceroute.png)
 
-## Authelia
+---
+
+# Security Components
+
+## Authelia (SSO)
+
+Provides centralized authentication and Single Sign-On functionality.
 
 ![Authelia](screenshots/09-authelia-container-status.png)
 
-## WireGuard
+---
+
+## WireGuard (VPN)
+
+Provides secure remote access to the environment.
 
 ![WireGuard](screenshots/10-wireguard-container-status.png)
 
-## ClamAV
+---
+
+## ClamAV (Malware Scanning)
+
+Provides malware detection and scanning capabilities.
 
 ![ClamAV](screenshots/11-clamav-container-status.png)
 
-## DMZ Web Server
+---
+
+# DMZ Web Server
+
+The DMZ contains an isolated Nginx web server.
 
 ![DMZ Web Server](screenshots/12-dmz-webserver-running.png)
 
